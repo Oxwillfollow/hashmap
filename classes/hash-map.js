@@ -66,7 +66,4 @@ class HashMap {
   has(key) {}
 }
 
-const myHashMap = new HashMap();
-myHashMap.set("John", { age: 23, occupation: "studying" });
-
-console.log(myHashMap.get("John"));
+export { HashMap };
