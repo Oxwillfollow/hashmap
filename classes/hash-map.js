@@ -51,19 +51,24 @@ class HashMap {
     const index = HashMap.hashToIndex(hashCode, this.#buckets.length);
 
     const list = this.#buckets[index];
-    const listSize = list.size();
 
-    for (let i = 0; i < listSize; i++) {
-      const item = list.at(i);
-      if (item.key === key) {
-        return item.value;
+    if (list !== undefined) {
+      const listSize = list.size();
+
+      for (let i = 0; i < listSize; i++) {
+        const item = list.at(i);
+        if (item.key === key) {
+          return item.value;
+        }
       }
     }
 
     return null;
   }
 
-  has(key) {}
+  has(key) {
+    return this.get(key) !== null ? true : false;
+  }
 }
 
 export { HashMap };
