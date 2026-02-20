@@ -1,6 +1,6 @@
 import { LinkedList } from "@oxwillfollow/linked-list";
 
-class Hashmap {
+class HashMap {
   #capacity = 16;
   #loadFactor = 0.75;
   #buckets = new Array(this.#capacity);
@@ -21,7 +21,7 @@ class Hashmap {
   }
 
   static hashToIndex(hashCode, arrayLength) {
-    const index = Hashmap.hash(hashCode) % (arrayLength - 1);
+    const index = hashCode % (arrayLength - 1);
 
     if (index < 0 || index >= arrayLength) {
       throw new Error("Trying to access index out of bounds");
@@ -31,22 +31,24 @@ class Hashmap {
   }
 
   set(key, value) {
-    const hashCode = Hashmap.hash(key);
-    const index = Hashmap.hashToIndex(hashCode, this.#buckets.length);
+    const hashCode = HashMap.hash(key);
+    const index = HashMap.hashToIndex(hashCode, this.#buckets.length);
 
-    let bucket = this.#buckets[index];
-
-    if (bucket !== undefined && bucket.key !== key) {
+    if (
+      this.#buckets[index] !== undefined &&
+      this.#buckets[index].key !== key
+    ) {
       // bucket is already a linked list
     } else {
-      bucket = new LinkedList();
-      bucket.append({ key, value });
+      const list = new LinkedList();
+      list.append({ key, value });
+      this.#buckets[index] = list;
     }
   }
 
   get(key) {
-    const hashCode = Hashmap.hash(key);
-    const index = Hashmap.hashToIndex(hashCode, this.#buckets.length);
+    const hashCode = HashMap.hash(key);
+    const index = HashMap.hashToIndex(hashCode, this.#buckets.length);
 
     const list = this.#buckets[index];
     const listSize = list.size();
@@ -64,7 +66,7 @@ class Hashmap {
   has(key) {}
 }
 
-const myHashMap = new Hashmap();
+const myHashMap = new HashMap();
 myHashMap.set("John", { age: 23, occupation: "studying" });
 
 console.log(myHashMap.get("John"));
