@@ -36,9 +36,9 @@ class HashMap {
 
     if (
       this.#buckets[index] !== undefined &&
-      this.#buckets[index].key !== key
+      this.#buckets[index].key === key
     ) {
-      // bucket is already a linked list
+      this.#buckets[index].value = value;
     } else {
       const list = new LinkedList();
       list.append({ key, value });
@@ -46,7 +46,7 @@ class HashMap {
     }
   }
 
-  get(key) {
+  #getListNode(key) {
     const hashCode = HashMap.hash(key);
     const index = HashMap.hashToIndex(hashCode, this.#buckets.length);
 
@@ -58,16 +58,43 @@ class HashMap {
       for (let i = 0; i < listSize; i++) {
         const item = list.at(i);
         if (item.key === key) {
-          return item.value;
+          return item;
         }
       }
     }
 
-    return null;
+    return undefined;
+  }
+
+  get(key) {
+    const node = this.#getListNode(key);
+
+    return node !== undefined ? node.value : null;
   }
 
   has(key) {
-    return this.get(key) !== null ? true : false;
+    return this.#getListNode(key) !== undefined;
+  }
+
+  remove(key) {
+    const hashCode = HashMap.hash(key);
+    const index = HashMap.hashToIndex(hashCode, this.#buckets.length);
+
+    const list = this.#buckets[index];
+
+    if (list !== undefined) {
+      const listSize = list.size();
+
+      for (let i = 0; i < listSize; i++) {
+        const item = list.at(i);
+        if (item.key === key) {
+          list.removeAt(i);
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }
 
