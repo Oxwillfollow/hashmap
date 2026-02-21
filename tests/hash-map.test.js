@@ -20,3 +20,21 @@ test("remove", () => {
   expect(myHashMap.remove("Bob")).toBe(false);
   expect(myHashMap.has("John")).toBe(false);
 });
+
+test("length", () => {
+  const myHashMap = new HashMap();
+
+  expect(myHashMap.length()).toBe(0);
+
+  myHashMap.set("John", "Tall");
+  myHashMap.set("Bob", "Tall");
+  myHashMap.set("Tom", "Short");
+
+  expect(myHashMap.length()).toBe(3);
+
+  myHashMap.set("Peter", "Short");
+  myHashMap.set("Paul", "Short");
+  myHashMap.set("Saul", "Tall");
+
+  expect(myHashMap.length()).toBe(6);
+});

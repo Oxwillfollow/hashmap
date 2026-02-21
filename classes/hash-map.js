@@ -31,12 +31,11 @@ class HashMap {
   }
 
   #updateCapacity() {
-    let occupiedBucketCount = 0;
-    for (let i = 0; i < this.#buckets.length; i++) {
-      if (this.#buckets[i] !== undefined) occupiedBucketCount++;
-    }
+    let occupiedBuckets = this.#buckets.filter(
+      (bucket) => bucket !== undefined,
+    );
 
-    if (occupiedBucketCount >= this.#capacity * this.#loadFactor) {
+    if (occupiedBuckets.length >= this.#capacity * this.#loadFactor) {
       this.#capacity *= 2;
     }
   }
@@ -115,6 +114,16 @@ class HashMap {
     }
 
     return false;
+  }
+
+  length() {
+    let occupiedBuckets = this.#buckets.filter(
+      (bucket) => bucket !== undefined,
+    );
+
+    if (occupiedBuckets.length <= 0) return 0;
+
+    return occupiedBuckets.reduce((prev, cur) => prev + cur.size(), 0);
   }
 }
 
