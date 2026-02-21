@@ -1,8 +1,8 @@
 import { LinkedList } from "@oxwillfollow/linked-list";
 
 class HashMap {
-  #STARTING_CAPATICY = 16;
-  #capacity = this.#STARTING_CAPATICY;
+  #MIN_CAPACITY = 16;
+  #capacity = this.#MIN_CAPACITY;
   #loadFactor = 0.75;
   #buckets = new Array(this.#capacity);
 
@@ -36,8 +36,14 @@ class HashMap {
       (bucket) => bucket !== undefined,
     );
 
+    // grow/shrink capacity based on how many buckets are occupied
     if (occupiedBuckets.length >= this.#capacity * this.#loadFactor) {
       this.#capacity *= 2;
+    } else if (
+      occupiedBuckets.length <=
+      (this.#capacity / 2) * this.#loadFactor
+    ) {
+      this.#capacity = Math.max(this.#MIN_CAPACITY, this.#capacity / 2);
     }
   }
 
@@ -102,6 +108,7 @@ class HashMap {
 
       if (listSize === 1) {
         this.#buckets[index] = undefined;
+        this.#updateCapacity();
         return true;
       }
 
@@ -109,6 +116,7 @@ class HashMap {
         const item = list.at(i);
         if (item.key === key) {
           list.removeAt(i);
+          this.#updateCapacity();
           return true;
         }
       }
@@ -128,7 +136,7 @@ class HashMap {
   }
 
   clear() {
-    this.#capacity = this.#STARTING_CAPATICY;
+    this.#capacity = this.#MIN_CAPACITY;
     this.#buckets = new Array(this.#capacity);
   }
 
