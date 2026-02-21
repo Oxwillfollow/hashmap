@@ -21,7 +21,7 @@ class HashMap {
     return hashCode;
   }
 
-  hashToIndex(hashCode) {
+  #hashToIndex(hashCode) {
     const index = hashCode % (this.#capacity - 1);
 
     if (index < 0 || index >= this.#capacity) {
@@ -49,7 +49,7 @@ class HashMap {
 
   #getListNode(key) {
     const hashCode = HashMap.hash(key);
-    const index = this.hashToIndex(hashCode);
+    const index = this.#hashToIndex(hashCode);
 
     const list = this.#buckets[index];
 
@@ -69,7 +69,7 @@ class HashMap {
 
   set(key, value) {
     const hashCode = HashMap.hash(key);
-    const index = this.hashToIndex(hashCode);
+    const index = this.#hashToIndex(hashCode);
 
     let existingNode = this.#getListNode(key);
 
@@ -99,7 +99,7 @@ class HashMap {
 
   remove(key) {
     const hashCode = HashMap.hash(key);
-    const index = this.hashToIndex(hashCode);
+    const index = this.#hashToIndex(hashCode);
 
     const list = this.#buckets[index];
 
