@@ -41,7 +41,7 @@ test("length, clear", () => {
   expect(myHashMap.length()).toBe(0);
 });
 
-test("keys", () => {
+test("keys, values, entries", () => {
   const myHashMap = new HashMap();
 
   expect(myHashMap.keys()).toEqual([]);
@@ -51,4 +51,18 @@ test("keys", () => {
   myHashMap.set("Tom", "Short");
 
   expect(myHashMap.keys().sort()).toEqual(["John", "Bob", "Tom"].sort());
+
+  expect(myHashMap.values().sort()).toEqual(["Tall", "Tall", "Short"].sort());
+
+  myHashMap.set("John", "Short");
+
+  expect(
+    myHashMap.entries().sort((a, b) => a.key.localeCompare(b.key)),
+  ).toEqual(
+    [
+      { key: "John", value: "Short" },
+      { key: "Bob", value: "Tall" },
+      { key: "Tom", value: "Short" },
+    ].sort((a, b) => a.key.localeCompare(b.key)),
+  );
 });

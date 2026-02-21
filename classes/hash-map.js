@@ -149,6 +149,42 @@ class HashMap {
 
     return keys;
   }
+
+  values() {
+    let occupiedBuckets = this.#buckets.filter(
+      (bucket) => bucket !== undefined,
+    );
+
+    let values = [];
+
+    if (occupiedBuckets.length > 0) {
+      for (let i = 0; i < occupiedBuckets.length; i++) {
+        for (let j = 0; j < occupiedBuckets[i].size(); j++) {
+          values.push(occupiedBuckets[i].at(j).value);
+        }
+      }
+    }
+
+    return values;
+  }
+
+  entries() {
+    let occupiedBuckets = this.#buckets.filter(
+      (bucket) => bucket !== undefined,
+    );
+
+    let entries = [];
+
+    if (occupiedBuckets.length > 0) {
+      for (let i = 0; i < occupiedBuckets.length; i++) {
+        for (let j = 0; j < occupiedBuckets[i].size(); j++) {
+          entries.push(occupiedBuckets[i].at(j));
+        }
+      }
+    }
+
+    return entries;
+  }
 }
 
 export { HashMap };
