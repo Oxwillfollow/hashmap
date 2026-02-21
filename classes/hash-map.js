@@ -17,12 +17,11 @@ class HashMap {
       hashCode =
         (primeNumber * hashCode + key.charCodeAt(i)) % Number.MAX_SAFE_INTEGER;
     }
-
     return hashCode;
   }
 
   #hashToIndex(hashCode) {
-    const index = hashCode % (this.#capacity - 1);
+    const index = hashCode % this.#capacity;
 
     if (index < 0 || index >= this.#capacity) {
       throw new Error("Trying to access index out of bounds");
