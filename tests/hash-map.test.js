@@ -21,7 +21,7 @@ test("remove", () => {
   expect(myHashMap.has("John")).toBe(false);
 });
 
-test("length", () => {
+test("length, clear", () => {
   const myHashMap = new HashMap();
 
   expect(myHashMap.length()).toBe(0);
@@ -32,9 +32,23 @@ test("length", () => {
 
   expect(myHashMap.length()).toBe(3);
 
-  myHashMap.set("Peter", "Short");
-  myHashMap.set("Paul", "Short");
-  myHashMap.set("Saul", "Tall");
+  myHashMap.remove("John");
 
-  expect(myHashMap.length()).toBe(6);
+  expect(myHashMap.length()).toBe(2);
+
+  myHashMap.clear();
+
+  expect(myHashMap.length()).toBe(0);
+});
+
+test("keys", () => {
+  const myHashMap = new HashMap();
+
+  expect(myHashMap.keys()).toEqual([]);
+
+  myHashMap.set("John", "Tall");
+  myHashMap.set("Bob", "Tall");
+  myHashMap.set("Tom", "Short");
+
+  expect(myHashMap.keys().sort()).toEqual(["John", "Bob", "Tom"].sort());
 });

@@ -1,7 +1,8 @@
 import { LinkedList } from "@oxwillfollow/linked-list";
 
 class HashMap {
-  #capacity = 16;
+  #STARTING_CAPATICY = 16;
+  #capacity = this.#STARTING_CAPATICY;
   #loadFactor = 0.75;
   #buckets = new Array(this.#capacity);
 
@@ -124,6 +125,29 @@ class HashMap {
     if (occupiedBuckets.length <= 0) return 0;
 
     return occupiedBuckets.reduce((prev, cur) => prev + cur.size(), 0);
+  }
+
+  clear() {
+    this.#capacity = this.#STARTING_CAPATICY;
+    this.#buckets = new Array(this.#capacity);
+  }
+
+  keys() {
+    let occupiedBuckets = this.#buckets.filter(
+      (bucket) => bucket !== undefined,
+    );
+
+    let keys = [];
+
+    if (occupiedBuckets.length > 0) {
+      for (let i = 0; i < occupiedBuckets.length; i++) {
+        for (let j = 0; j < occupiedBuckets[i].size(); j++) {
+          keys.push(occupiedBuckets[i].at(j).key);
+        }
+      }
+    }
+
+    return keys;
   }
 }
 
